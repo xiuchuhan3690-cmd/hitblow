@@ -1,82 +1,31 @@
 """ゲームの時間制限を管理する。"""
 
-import os
-import sys
 import time
 
 
+def ask_time_limit():
+    """制限時間を入力してもらう。"""
+    while True:
+        value = input("制限時間を秒で入力してください（例：30）> ").strip()
+
+        if value.isdigit() and int(value) > 0:
+            return int(value)
+
+        print("1以上の数字を入力してください")
+
+
 def start_timer():
+    """ゲーム開始時刻を返す。"""
     return time.monotonic()
 
 
-def remaining_seconds(start_time, time_limit):
+def is_time_up(start_time, time_limit):
+    """制限時間を過ぎたか判定する。"""
     elapsed = time.monotonic() - start_time
-    return max(0.0, time_limit - elapsed)
+    return elapsed >= time_limit
 
 
-def timed_input(prompt, timeout):
-    if timeout <= 0:
-        return None
-
-    if os.name == "nt":
-        return timed_input_windows(prompt, timeout)
-
-    return timed_input_unix(prompt, timeout)
-
-
-def timed_input_windows(prompt, timeout):
-    import msvcrt
-
-    print(prompt, end="", flush=True)
-
-    characters = []
-    deadline = time.monotonic() + timeout
-
-    while time.monotonic() < deadline:
-        if msvcrt.kbhit():
-            character = msvcrt.getwch()
-
-            if character in ("\r", "\n"):
-                print()
-                return "".join(characters)
-
-            if character == "\b":
-                if characters:
-                    characters.pop()
-                    print("\b \b", end="", flush=True)
-                continue
-
-            if character == "\x03":
-                raise KeyboardInterrupt
-
-            if character in ("\x00", "\xe0"):
-                msvcrt.getwch()
-                continue
-
-            if character.isprintable():
-                characters.append(character)
-                print(character, end="", flush=True)
-
-        time.sleep(0.05)
-
-    print()
-    return None
-
-
-def timed_input_unix(prompt, timeout):
-    import select
-
-    print(prompt, end="", flush=True)
-
-    readable, _, _ = select.select(
-        [sys.stdin],
-        [],
-        [],
-        timeout
-    )
-
-    if not readable:
-        print()
-        return None
-
-    return sys.stdin.readline().rstrip("\n")
+def remaining_time(start_time, time_limit):
+    """残り時間を返す。"""
+    elapsed = time.monotonic() - start_time
+    return max(0, time_limit - elapsed)
