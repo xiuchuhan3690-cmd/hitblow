@@ -44,11 +44,13 @@ def play(digits=3):
         remaining_seconds = remaining_time(start_time, time_limit)
         print(f"残り時間：約 {remaining_seconds:.1f} 秒")
 
-        guess = input("予想 > ").strip()
+        from .timed_input import timed_input
 
-        if is_time_up(start_time, time_limit):
-            print(f"時間切れ！ 答えは {secret} でした")
-            break
+        guess = timed_input(start_time, time_limit)
+
+        if guess is None:
+           print(f"答えは {secret} でした")
+           break
 
         # ===== ② 入力コマンドに足す（ヒント など）: ここに書く（import もここに） =====
         # 例:  from .hint import hint
