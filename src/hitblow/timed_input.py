@@ -14,7 +14,7 @@ def timed_input(start_time, time_limit, prompt="予想 > "):
     last_display = ""
 
     while True:
-        elapsed = time.time() - start_time
+        elapsed = time.monotonic() - start_time
         remaining = time_limit - elapsed
 
         if remaining <= 0:
