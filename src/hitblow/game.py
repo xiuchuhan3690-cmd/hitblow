@@ -17,11 +17,11 @@ def play(digits=3):
     from .duplicate import ask_duplicate_mode, make_duplicate_secret
     from .attempt_limit import ask_attempt_limit
     from .time_limit import (
-         ask_time_limit,
-         is_time_up,
-         remaining_time,
-         start_timer,
-     )
+        ask_time_limit,
+        is_time_up,
+        remaining_time,
+        start_timer,
+    )
 
     if ask_duplicate_mode():
         secret = make_duplicate_secret(digits)
@@ -31,11 +31,10 @@ def play(digits=3):
     print(f"挑戦できる回数は {max_tries} 回です")
 
     time_limit = ask_time_limit()
-     print(f"制限時間は {time_limit} 秒です")
+    print(f"制限時間は {time_limit} 秒です")
 
     start_time = start_timer()
 
-       
     tries = 0
     while True:
         if is_time_up(start_time, time_limit):
@@ -59,12 +58,15 @@ def play(digits=3):
         if len(guess) != digits or not guess.isdigit():
             print(f"{digits} 桁の数字で入力してね")
             continue
+
         tries += 1
         hit, blow = judge(secret, guess)
         print(f"  Hit={hit}  Blow={blow}")
+
         if hit == digits:
 
             # ===== ③ 勝利時に足す（スコア・履歴 など）: ここに書く =====
+
             print(f"正解！ {tries} 回で当たり（答え {secret}）")
             break
 
