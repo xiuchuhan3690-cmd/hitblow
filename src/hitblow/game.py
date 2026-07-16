@@ -16,6 +16,12 @@ def play(digits=3):
     # ===== ① 開始時に足す（難易度・あいさつ など）: ここに書く =====
     from .duplicate import ask_duplicate_mode, make_duplicate_secret
     from .attempt_limit import ask_attempt_limit
+   from .time_limit import (
+        ask_time_limit,
+        is_time_up,
+        remaining_time,
+        start_timer,
+    )
 
     if ask_duplicate_mode():
         secret = make_duplicate_secret(digits)
@@ -23,10 +29,27 @@ def play(digits=3):
 
     max_tries = ask_attempt_limit()
     print(f"挑戦できる回数は {max_tries} 回です")
+
+   time_limit = ask_time_limit()
+    print(f"制限時間は {time_limit} 秒です")
+
+    start_time = start_timer()
+
        
     tries = 0
     while True:
+        if is_time_up(start_time, time_limit):
+            print(f"時間切れ！ 答えは {secret} でした")
+            break
+
+        remaining_seconds = remaining_time(start_time, time_limit)
+        print(f"残り時間：約 {remaining_seconds:.1f} 秒")
+
         guess = input("予想 > ").strip()
+
+        if is_time_up(start_time, time_limit):
+            print(f"時間切れ！ 答えは {secret} でした")
+            break
 
         # ===== ② 入力コマンドに足す（ヒント など）: ここに書く（import もここに） =====
         # 例:  from .hint import hint
@@ -46,5 +69,5 @@ def play(digits=3):
             break
 
         if tries >= max_tries:
-            print(f"正解！ {tries} 回で当たり（答え {secret}）")
+            print(f"挑戦回数を使い切りました！ 答えは {secret} でした")
             break
