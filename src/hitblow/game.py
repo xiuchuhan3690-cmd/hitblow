@@ -14,7 +14,12 @@ def play(digits=3):
     print(f"Hit & Blow（{digits} 桁・重複なし）")
 
     # ===== ① 開始時に足す（難易度・あいさつ など）: ここに書く =====
+    from .duplicate import ask_duplicate_mode, make_duplicate_secret
 
+    if ask_duplicate_mode():
+        secret = make_duplicate_secret(digits)
+        print(f"重複ありモードに変更しました（{digits} 桁）")
+       
     tries = 0
     while True:
         guess = input("予想 > ").strip()
