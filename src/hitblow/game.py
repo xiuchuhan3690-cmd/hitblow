@@ -19,9 +19,9 @@ def play(digits=3):
     from .time_limit import (
         ask_time_limit,
         is_time_up,
-        remaining_time,
         start_timer,
     )
+    from .timed_input import timed_input
 
     if ask_duplicate_mode():
         secret = make_duplicate_secret(digits)
@@ -41,16 +41,11 @@ def play(digits=3):
             print(f"時間切れ！ 答えは {secret} でした")
             break
 
-        remaining_seconds = remaining_time(start_time, time_limit)
-        print(f"残り時間：約 {remaining_seconds:.1f} 秒")
-
-        from .timed_input import timed_input
-
         guess = timed_input(start_time, time_limit)
 
         if guess is None:
-           print(f"答えは {secret} でした")
-           break
+            print(f"答えは {secret} でした")
+            break
 
         # ===== ② 入力コマンドに足す（ヒント など）: ここに書く（import もここに） =====
         # 例:  from .hint import hint
