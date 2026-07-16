@@ -15,10 +15,14 @@ def play(digits=3):
 
     # ===== ① 開始時に足す（難易度・あいさつ など）: ここに書く =====
     from .duplicate import ask_duplicate_mode, make_duplicate_secret
+    from .attempt_limit import ask_attempt_limit
 
     if ask_duplicate_mode():
         secret = make_duplicate_secret(digits)
         print(f"重複ありモードに変更しました（{digits} 桁）")
+
+    max_tries = ask_attempt_limit()
+    print(f"挑戦できる回数は {max_tries} 回です")
        
     tries = 0
     while True:
@@ -38,6 +42,9 @@ def play(digits=3):
         if hit == digits:
 
             # ===== ③ 勝利時に足す（スコア・履歴 など）: ここに書く =====
+            print(f"正解！ {tries} 回で当たり（答え {secret}）")
+            break
 
+        if tries >= max_tries:
             print(f"正解！ {tries} 回で当たり（答え {secret}）")
             break
