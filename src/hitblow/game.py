@@ -16,12 +16,12 @@ def play(digits=3):
     # ===== ① 開始時に足す（難易度・あいさつ など）: ここに書く =====
     from .duplicate import ask_duplicate_mode, make_duplicate_secret
     from .attempt_limit import ask_attempt_limit
-   from .time_limit import (
-        ask_time_limit,
-        is_time_up,
-        remaining_time,
-        start_timer,
-    )
+    from .time_limit import (
+         ask_time_limit,
+         is_time_up,
+         remaining_time,
+         start_timer,
+     )
 
     if ask_duplicate_mode():
         secret = make_duplicate_secret(digits)
@@ -30,8 +30,8 @@ def play(digits=3):
     max_tries = ask_attempt_limit()
     print(f"挑戦できる回数は {max_tries} 回です")
 
-   time_limit = ask_time_limit()
-    print(f"制限時間は {time_limit} 秒です")
+    time_limit = ask_time_limit()
+     print(f"制限時間は {time_limit} 秒です")
 
     start_time = start_timer()
 
