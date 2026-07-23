@@ -41,7 +41,12 @@ def play(digits=3):
             print(f"時間切れ！ 答えは {secret} でした")
             break
 
-        guess = timed_input(start_time, time_limit)
+        remaining_tries = max_tries - tries
+        guess = timed_input(
+            start_time,
+            time_limit,
+            prompt=f"残り回数: {remaining_tries} 回  予想 > ",
+        )
 
         if guess is None:
             print(f"答えは {secret} でした")
